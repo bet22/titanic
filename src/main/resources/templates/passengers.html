@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пассажиров Титаника</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Список пассажиров Титаника</h1>
+
+    <form class="form-inline mb-4">
+        <input class="form-control mr-sm-2" type="search" placeholder="Поиск по имени" aria-label="Search"
+               name="search" th:value="${search}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+        <select class="form-control ml-2" name="size" onchange="this.form.submit()">
+            <option th:value="10" th:text="10" th:selected="${size == 10}"></option>
+            <option th:value="20" th:text="20" th:selected="${size == 20}"></option>
+            <option th:value="50" th:text="50" th:selected="${size == 50}"></option>
+            <option th:value="100" th:text="100" th:selected="${size == 100}"></option>
+        </select>
+        <div class="w-100">
+            <button class="btn btn-outline-success my-2 my-sm-2" type="submit" name="filter" value="survived">Показать всех выживших пассажиров</button>
+            <button class="btn btn-outline-success my-2 my-sm-2" type="submit" name="filter" value="adults">Показать всех совершеннолетних пассажиров</button>
+            <button class="btn btn-outline-success my-2 my-sm-2" type="submit" name="filter" value="male">Показать всех пассажиров мужского пола</button>
+            <button class="btn btn-outline-success my-2 my-sm-2" type="submit" name="filter" value="noRelatives">Показать всех пассажиров без родственников</button>
+        </div>
+
+    </form>
+<!--    <form method="get" action="/passengers">-->
+<!--        <button type="submit" name="filter" value="survived">Показать всех выживших пассажиров</button>-->
+<!--        <button type="submit" name="filter" value="adults">Показать всех совершеннолетних пассажиров</button>-->
+<!--        <button type="submit" name="filter" value="male">Показать всех пассажиров мужского пола</button>-->
+<!--        <button type="submit" name="filter" value="noRelatives">Показать всех пассажиров без родственников</button>-->
+<!--    </form>-->
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">
+                <a th:href="@{/passengers(sortBy='name', sortDir=${reverseSortDir}, search=${search}, size=${size}, page=${currentPage})}">
+                    Имя
+                </a>
+            </th>
+            <th scope="col" >
+                <a th:href="@{/passengers(sortBy='age', sortDir=${reverseSortDir}, search=${search}, size=${size}, page=${currentPage})}">
+                    Возраст
+                </a>
+            </th>
+            <th scope="col">
+                <a th:href="@{/passengers(sortBy='fare', sortDir=${reverseSortDir}, search=${search}, size=${size}, page=${currentPage})}">
+                    Оплата
+                </a>
+            </th>
+            <th scope="col">Класс</th>
+            <th scope="col">Выжил</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="passenger : ${passengerPage.content}">
+            <td th:text="${passenger.name}"></td>
+            <td th:text="${passenger.age}"></td>
+            <td th:text="${passenger.fare}"></td>
+            <td th:text="${passenger.pclass}"></td>
+            <td th:text="${passenger.survived ? 'Да' : 'Нет'}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <p th:text="'Общая сумма оплаты проезда: ' + ${allFare}"></p>
+        <p th:text="'Количество людей имеющих родственников на борту: ' + ${passengersWithRelativesCount}"></p>
+        <p th:text="'Количество выживших на борту: ' + ${allSurvived}"></p>
+    </div>
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/passengers(sortBy=${sortBy}, sortDir=${sortDir}, search=${search}, size=${size}, page=${currentPage - 1})}">Предыдущая</a>
+            </li>
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${pageNum == currentPage} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/passengers(sortBy=${sortBy}, sortDir=${sortDir}, search=${search}, size=${size}, page=${pageNum})}"
+                   th:text="${pageNum + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages -1} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/passengers(sortBy=${sortBy}, sortDir=${sortDir}, search=${search}, size=${size}, page=${currentPage + 1})}">Следующая</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

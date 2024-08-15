@@ -1,0 +1,53 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 2024-08-13-01-passengers-create
+      author: BetevAA
+      changes:
+        - createTable:
+            tableName: passengers
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_passengers
+                    nullable: false
+              - column:
+                  name: pclass
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: survived
+                  type: bool
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sex
+                  type: varchar(60)
+              - column:
+                  name: age
+                  type: numeric(5, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: siblings_spouses
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parents_children
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fare
+                  type: numeric(7, 4)
+

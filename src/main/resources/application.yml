@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/titanic
+    username: postgres
+    password: 1111
+    driverClassName: org.postgresql.Driver
+
+app:
+  data-url: https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/stuff/titanic.csv
