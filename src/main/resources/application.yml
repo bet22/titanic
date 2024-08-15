@@ -1,10 +1,8 @@
 spring:
-  jpa:
-    show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/titanic
-    username: postgres
-    password: 1111
+    username: userName
+    password: password
     driverClassName: org.postgresql.Driver
 
 app:
